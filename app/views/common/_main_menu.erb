@@ -1,0 +1,32 @@
+<div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <div class="nav-collapse collapse">
+        <ul class="nav">
+          <li><a href='/'>Home</a></li>
+          <li><a href='/events/'>Events</a></li>
+          <% if login? %>
+            <li><a href='/events/new'>Create event</a></li>
+            <li><a href="/users/<%= current_user.id %>">Profile</a></li>
+          <% else %>
+            <li><a href='/users/new'>Sign up</a></li>
+          <% end %>
+        </ul>
+
+        <% if login? %>
+          <form action='/sessions/logout' method='post' class="navbar-form pull-right">
+            <input type="hidden" name="_method" value='delete'>
+            <button class="btn" type='submit'>Log out</button>
+          </form>
+        <% else %>
+          <form action='/sessions/login' method='post' class="navbar-form pull-right">
+            <input class="span3" type='text' name='email' placeholder="your email">
+            <input class="span2" type='password' name='password' placeholder="your password">
+            <button type="submit" class="btn">Log in</button>
+          </form>
+        <% end %>
+
+      </div>
+    </div>
+  </div>
+</div>

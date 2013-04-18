@@ -1,0 +1,86 @@
+<div class="row">
+  <span id="error" class="label label-warning"></span>
+</div>
+<div class="row">
+  <div class=span9>
+    <h3>Hello! <%= current_user.first_name %></h3>
+  </div>
+  <div class=span3>
+    <a class="btn btn-danger" href="/users/<%= current_user.id %>/edit">Edit Profile</a>
+  </div>
+</div>
+<div class="row">
+  <div class="span6">
+    <h4>Events Created</h4>
+    <% if @events_created %>
+      <table class="table table-hover table-condensed">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Start at</th>
+            <th>End at</th>
+          </tr>
+        </thead>
+        <tbody id="events-created">
+        <% @events_created.each do |e| %>
+          <%= erb :"events/_event_row", layout: false, :locals => { :e => e } %>
+        <% end %>
+        </tbody>
+      </table>
+    <% end %>
+  </div>
+
+  <div class="span6">
+    <h4>Events Attending/Attended</h4>
+    <% if @events_attended %>
+      <table class="table table-hover table-condensed">
+        <thead>
+          <tr class="events" >
+            <th>Name</th>
+            <th>Location</th>
+            <th>Start at</th>
+            <th>End at</th>
+          </tr>
+        </thead>
+        <tbody>
+        <% @events_attended.each do |e| %>
+          <%= erb :"events/_event_row", layout: false, :locals => { :e => e } %>
+        <% end %>
+        </tbody>
+      </table>
+    <% end %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span12">
+    <h3>Organize an event</h3>
+    <%= erb :"events/_form" %>
+  </div>
+</div>
+
+
+<script>
+  $('#create-event').on('submit', function(e){
+    e.preventDefault();
+    var form = $(this);
+    var action = form.attr('action') + '.json'
+    console.log(action);
+    var request = $.ajax({
+      url: action,
+      method: form.attr('method'),
+      data: form.serialize()
+      });
+
+    request.done(function(e){
+      $("#events-created").append(e);
+      form.find('input').val("")
+    });
+
+    request.fail(function(e){
+      $('#error').text("Failed to create event. PLease try again")
+    })
+  });
+
+</script>

@@ -1,0 +1,21 @@
+<form action='/users' method='post'>
+  <% if @user && !@user.new_record? %>
+    <input name="_method" value="put" type="hidden">
+    <input name="user_id" value=<%= @user.id || "" %> type="hidden">
+  <% end %>
+
+
+  <input name="user[first_name]" type="text" placeholder="Your first name" value=<%= @user ? @user.first_name : "" %>>
+  <input name="user[last_name]" type="text" placeholder="Your last name" value=<%= @user ? @user.last_name : "" %>>
+  <input name="user[email]" type="text" placeholder="Your email" value=<%= @user ? @user.email : "" %>>
+  
+  <input name="user[birthdate]" type="date" value=<%= @user ? @user.birthdate : "" %>>
+
+
+  <!-- might want to make this fields optional for existing user... can hide this for existing user and show it only if they want to edit their password -->
+  <input name="user[password]" placeholder="Your password" type="password">
+  <input name="user[password_confirmation]" placeholder="confirm password" type="password">
+
+  <button type="submit"><%= @user && !@user.new_record? ? "Update" : "Sign up" %></button>
+
+</form>

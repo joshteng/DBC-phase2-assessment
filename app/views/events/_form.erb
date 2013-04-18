@@ -1,0 +1,17 @@
+<form id="create-event" action='/events' method='post'>
+  <% if @event && !@event.new_record? %>
+    <input name="_method" value="put" type="hidden">
+    <input name="event_id" value=<%= @event.id || "" %> type="hidden">
+  <% end %>
+
+
+  <input name="event[name]" type="text" placeholder="Name of event" value=<%= @event ? @event.name : "" %>>
+  <input name="event[location]" type="text" placeholder="Event Location" value=<%= @event ? @event.location : "" %>>
+  <input name="event[starts_at]" type="date" placeholder="Your email" value=<%= @event ? @event.starts_at : "" %>>
+  
+  <input name="event[ends_at]" type="date" value=<%= @event ? @event.ends_at : "" %>>
+
+  <button type="submit"><%= @event && !@event.new_record? ? "Update" : "Create" %></button>
+
+
+</form>
